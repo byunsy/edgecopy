@@ -19,7 +19,7 @@ from . import paras_pool as _pool
 from . import paras_examine as _examine
 from . import paras_pscn as _pscn
 from . import prep_data as _prep
-from . import analyze as _analyze
+from . import pseudo_analyze as _analyze
 from . import headers as _h
 from . import evaluate as _eval
 from . import utilities as _util
