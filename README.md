@@ -2,8 +2,6 @@
 
 Edgecopy is a computational method for accurately estimating the copy numbers for duplicated genes using exome sequence data from multiple samples. 
 
-![Edgecopy Overview](docs/edgecopy_overview.png) 
-
 ---
 ### Installation Instructions
 To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself.
@@ -48,6 +46,9 @@ pip install -e .
 ```
 
 ---
+
+![Edgecopy Overview](docs/edgecopy_overview.png) 
+
 ### Running Edgecopy pipelines
 Edgecopy has three main pipelines: (1) depth, (2) agcn, and (3) pscn.
 Edgecopy provides three main pipelines to analyze exome sequencing data.
