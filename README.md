@@ -2,6 +2,8 @@
 
 Edgecopy is a computational method for accurately estimating the copy numbers for duplicated genes using exome sequence data from multiple samples. 
 
+![Edgecopy Overview](docs/edgecopy_overview.png) 
+
 ---
 ### Installation Instructions
 To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself.
