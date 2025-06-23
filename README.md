@@ -11,6 +11,7 @@ Edgecopy is a computational method for accurately estimating the copy numbers fo
     * [psCN module](#3-estimate-paralog-specific-copy-numbers)
 * [Output files](#output-files)
 * [Test dataset](#test-dataset)
+* [Citations](#citations)
 
 ---
 ### Installation Instructions
@@ -223,3 +224,16 @@ edgecopy agcn \
  --max-iter 5 \
  -@ 8
 ``` -->
+
+---
+### Citations
+
+#### Edgecopy
+
+The manuscript for Edgecopy has been submitted and is currently under review. More information to come.
+
+#### ExomeDepth
+
+Edgecopy expands on the statistical modeling approach employed by the [ExomeDepth](https://github.com/vplagnol/ExomeDepth) method, especially in the `edgecopy depth` module. The original paper, shown below, describes ExomeDepth in full detail.
+
+Plagnol, V. et al. A robust model for read count data in exome sequencing experiments and implications for copy number variant calling. *Bioinformatics* 28, 2747–2754 (2012). [https://doi.org/10.1093/bioinformatics/bts526](https://doi.org/10.1093/bioinformatics/bts526)
