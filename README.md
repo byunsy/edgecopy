@@ -11,50 +11,13 @@ Edgecopy is a computational method for accurately estimating the copy numbers fo
     * [psCN module](#3-estimate-paralog-specific-copy-numbers)
 * [Output files](#output-files)
 * [Test dataset](#test-dataset)
+* [Issues](#issues)
 * [Citations](#citations)
 
 ---
 ### Installation Instructions
 To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself. Please see [INSTALL.md](INSTALL.md) for full instructions.
 
-<!-- #### Prerequisites:
-
-To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself.
-
-1. **Install Parascopy**:
-
-Edgecopy depends on [Parascopy](https://github.com/tprodanov/parascopy). To install it, run the following commands:
-```
-conda config --add channels bioconda
-conda config --add channels conda-forge
-conda install -c bioconda parascopy
-```
-
-2. **Install ExomeDepth**:
-
-Edgecopy also relies on [ExomeDepth](https://github.com/vplagnol/ExomeDepth). Install it with:
-```
-conda install -c bioconda r-exomedepth
-```
-
-#### Additional Dependencies:
-You'll also need these additional packages installed:
-```
-conda install pandas
-conda install pyreadr
-conda install networkx
-conda install r-optparse
-conda install bedtools
-```
-
-#### Install Edgecopy:
-After installing the prerequisites, you can install Edgecopy itself by cloning the GitHub repository and using `pip`:
-
-```
-git clone https://github.com/byunsy/edgecopy.git
-cd edgecopy
-pip install -e .
-``` -->
 
 ---
 
@@ -191,39 +154,18 @@ Similarly, output files generated from running `edgecopy pscn` module is describ
 ### Test dataset
 
 We have provided a small 1KGP dataset for test runs. They are located in `test-dataset` directory. It includes the following:
-- List of example file-paths for 16 BAM files
-- List of five genes (four duplicated and one non-duplicated) and their genomic positions
-- BED file containing genomic positions for ~185,000 exons 
-- TSV file containing the read counts mapped to the ~185,000 exons for the 16 samples
+- A list of FTP locations for 16 European CRAM files
+- A list of example input file-paths for the 16 BAM files
+- A list of five loci (four duplicated and one non-duplicated) and their genomic positions
+- A BED file containing genomic positions for ~185,000 exons 
+- A TSV file containing the read counts mapped to the ~185,000 exons for the 16 samples
 
 Please see [test-dataset](test-dataset/) for full instructions.
 
-<!-- The `out-depth` directory here contains `all.counts.tsv`, which is a matrix of background read counts of the 16 samples. This has been done for the users.
+---
+### Issues
 
-```
-edgecopy depth \
- --input test-dataset/1KGP.EUR.BGI.bam.fp.test.list \
- --output test-dataset/out-depth \
- --exon-list test-dataset/exons.hg38.noalt.bed \
- --reference path/to/hg38.ref.fa \
- --hom-table data/homology-table/hg38.bed.gz \
- -@ 8
-
-edgecopy agcn \
- --input test-ru/1KGP.EUR.BGI.bam.fp.test.list \
- --depth test-dataset/out-depth \
- --output test-dataset/out-agcn \
- --loci-list test-dataset/example.loci.list \
- --exon-list test-dataset/exons.hg38.noalt.bed \
- --reference path/to/hg38.ref.fa \
- --hom-table data/homology-table/hg38.bed.gz \
- --priors data/priors/EUR \
- --qual-thresh 20 \
- --t-prob 0.0001 \
- --min-cc-size 5 \
- --max-iter 5 \
- -@ 8
-``` -->
+If you encounter any issues or bugs, feel free to file a new issue [here](https://github.com/byunsy/edgecopy/issues).
 
 ---
 ### Citations
@@ -236,4 +178,4 @@ The manuscript for Edgecopy has been submitted and is currently under review. Mo
 
 Edgecopy expands on the statistical modeling approach employed by the [ExomeDepth](https://github.com/vplagnol/ExomeDepth) method, especially in the `edgecopy depth` module. The original paper, shown below, describes ExomeDepth in full detail.
 
-Plagnol, V. et al. A robust model for read count data in exome sequencing experiments and implications for copy number variant calling. *Bioinformatics* 28, 2747–2754 (2012). [https://doi.org/10.1093/bioinformatics/bts526](https://doi.org/10.1093/bioinformatics/bts526)
+>Plagnol, V. et al. A robust model for read count data in exome sequencing experiments and implications for copy number variant calling. *Bioinformatics* 28, 2747–2754 (2012). [https://doi.org/10.1093/bioinformatics/bts526](https://doi.org/10.1093/bioinformatics/bts526)
