@@ -176,8 +176,11 @@ We have provided a small 1KGP dataset for test runs. They are located in `test-d
 - List of example file-paths for 16 BAM files
 - List of five genes (four duplicated and one non-duplicated) and their genomic positions
 - BED file containing genomic positions for ~185,000 exons 
+- TSV file containing the read counts mapped to the ~185,000 exons for the 16 samples
 
-The `out-depth` directory here contains `all.counts.tsv`, which is a matrix of background read counts of the 16 samples. This has been done for the users.
+Please see [test-dataset](test-dataset/) for full instructions.
+
+<!-- The `out-depth` directory here contains `all.counts.tsv`, which is a matrix of background read counts of the 16 samples. This has been done for the users.
 
 ```
 edgecopy depth \
@@ -202,4 +205,4 @@ edgecopy agcn \
  --min-cc-size 5 \
  --max-iter 5 \
  -@ 8
-```
+``` -->
