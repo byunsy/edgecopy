@@ -4,9 +4,9 @@ Edgecopy is a computational method for accurately estimating the copy numbers fo
 
 ---
 ### Installation Instructions
-To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself.
+To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself. Please see [INSTALL.md](INSTALL.md) for full instructions.
 
-#### Prerequisites:
+<!-- #### Prerequisites:
 
 To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself.
 
@@ -43,7 +43,7 @@ After installing the prerequisites, you can install Edgecopy itself by cloning t
 git clone https://github.com/byunsy/edgecopy.git
 cd edgecopy
 pip install -e .
-```
+``` -->
 
 ---
 
