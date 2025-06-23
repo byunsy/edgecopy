@@ -37,7 +37,7 @@ The `<gene>.agcn.tsv` file stores integer agCN values in a matrix format (i.e. e
 
 ### Aggregate copy number HMM output
 
-The `<gene>.hmm.out` file contains the same agCN information as `<gene>.agcn.bed,` but in a different format. Each row represents an input sample, with HMM-refined agCN estimates given as comma-separated integer copy number values across exons (e.g. 4,4,4,4,4,3,3).
+The `<gene>.hmm.out` file contains the same agCN information as `<gene>.agcn.bed,` but in a different format. Each row represents an input sample, with HMM-refined agCN estimates given as comma-separated integer copy number values across exons (e.g. 4,4,4,4,3,3).
 
 | Column | Name        | Description |
 | ---    | ---         | ---         |
