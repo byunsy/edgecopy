@@ -47,14 +47,12 @@ pip install -e .
 
 ---
 
-![Edgecopy Overview](docs/edgecopy_overview.png) 
-
-### Running Edgecopy pipelines
-Edgecopy has three main pipelines: (1) depth, (2) agcn, and (3) pscn.
-Edgecopy provides three main pipelines to analyze exome sequencing data.
-1. **Depth pipeline**: Calculate background read depth from all samples.
-2. **Aggregate copy number (agCN) pipeline**: Estimate agCN for all samples and loci.
-3. **Paralog-specific copy number (psCN) pipeline**: Estimate paralog-specific copy numbers from aggregate read depth and PSV information.
+### Running Edgecopy modules
+Edgecopy has three main modules: (1) depth, (2) agcn, and (3) pscn.
+Edgecopy provides three main modules to analyze exome sequencing data.
+1. **Depth module**: Calculate background read depth from all samples.
+2. **Aggregate copy number (agCN) module**: Estimate agCN for all samples and loci.
+3. **Paralog-specific copy number (psCN) module**: Estimate paralog-specific copy numbers from aggregate read depth and PSV information.
 
 
 #### 1. Calculate read counts (depth) of samples
@@ -135,7 +133,7 @@ edgecopy agcn \
 
 * `--input`: A list of input BAM files.
 
-* `--depth`: Path to directory that edgecopy depth pipeline has stored the read counts information (generally, this would be equivalent to `--output` from edgecopy depth). 
+* `--depth`: Path to directory that edgecopy depth module has stored the read counts information (generally, this would be equivalent to `--output` from edgecopy depth). 
 
 * `--output`: Path to a directory to store output files. 
 
