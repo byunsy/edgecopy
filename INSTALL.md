@@ -16,7 +16,7 @@ conda config --add channels conda-forge
 
 2. **Install Parascopy**:
 
-Edgecopy utilizes several modules from [Parascopy](https://github.com/tprodanov/parascopy). To install it, run the following commands:
+Edgecopy utilizes several modules from [Parascopy](https://github.com/tprodanov/parascopy) (≥ version 1.18.0). To install it, run the following commands:
 ```
 conda install -c bioconda parascopy
 ```
@@ -40,6 +40,13 @@ conda install r-optparse
 conda install bedtools
 ```
 Each package will take approximately one minute to install (five minutes in total for all five pacakges) using `conda`.
+
+If you need to install these packages manually, Edgecopy requires:
+* pandas ≥ 2.2.3
+* pyreadr ≥ 0.5.2
+* networkx ≥ 3.4.2
+* r-optparse ≥ 1.7.5
+* bedtools ≥ 2.26.0
 
 ## Install Edgecopy:
 Once the prerequisites are installed, you can set up Edgecopy (in under a minute) by cloning the GitHub repository and installing it with `pip`:
