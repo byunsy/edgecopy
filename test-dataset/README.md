@@ -15,7 +15,7 @@ Please see [test_pipeline.sh](test_pipeline.sh) in this directory for the full t
 bash test_pipeline.sh
 ```
 
-or by following step-by-step, as shown below:
+or by following step-by-step instructions, as shown below:
 
 ## Pipeline description
 
