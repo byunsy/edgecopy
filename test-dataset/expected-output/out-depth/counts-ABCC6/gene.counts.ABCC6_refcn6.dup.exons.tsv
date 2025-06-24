@@ -1,5 +1,0 @@
-#chrom	start	end	name	NA07037.pooled_reads.bam	NA11892.pooled_reads.bam	NA11893.pooled_reads.bam	NA11894.pooled_reads.bam	NA11931.pooled_reads.bam	NA11932.pooled_reads.bam	NA11933.pooled_reads.bam	NA12287.pooled_reads.bam	NA12347.pooled_reads.bam	NA12348.pooled_reads.bam	NA12383.pooled_reads.bam	NA12413.pooled_reads.bam	NA12546.pooled_reads.bam	NA12749.pooled_reads.bam	NA12775.pooled_reads.bam	NA12776.pooled_reads.bam
-chr16	16219555	16219682	ABCC6_4	829	791	884	925	794	833	891	838	786	816	821	964	928	801	782	957
-chr16	16219823	16219947	ABCC6_3	728	662	716	782	635	666	674	679	645	623	653	821	733	676	628	752
-chr16	16221650	16221831	ABCC6_2	634	632	663	725	672	612	657	597	665	603	649	691	726	658	554	646
-chr16	16223400	16223434	ABCC6_1	76	68	84	78	61	91	74	87	79	82	86	90	74	84	77	95

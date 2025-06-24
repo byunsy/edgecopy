@@ -1,4 +1,0 @@
-#chrom	start	end	copy_num	use
-chr7	74768962	74770523	6	use
-chr7	74770523	74770569	8	skip
-chr7	74770569	74790000	6	use
