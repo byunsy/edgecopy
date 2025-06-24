@@ -18,6 +18,7 @@ Edgecopy is a computational method for accurately estimating the copy numbers fo
 ### Installation Instructions
 To get started with Edgecopy, you'll need to install a few dependencies and the Edgecopy package itself. Please see [INSTALL.md](INSTALL.md) for full instructions.
 
+Edgecopy does not require any non-standard hardware. 
 
 ---
 
