@@ -156,7 +156,7 @@ Similarly, output files generated from running `edgecopy pscn` module is describ
 We have provided a small 1KGP dataset for test runs. They are located in `test-dataset` directory. It includes the following:
 - A list of FTP locations for 16 European CRAM files
 - A list of example input file-paths for the 16 BAM files
-- A list of five loci (four duplicated and one non-duplicated) and their genomic positions
+- A list of four duplicated loci and their genomic positions
 - A BED file containing genomic positions for ~185,000 exons 
 - A TSV file containing the read counts mapped to the ~185,000 exons for the 16 samples
 
