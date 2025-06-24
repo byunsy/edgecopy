@@ -1,6 +1,6 @@
 ## Edgecopy agCN output files
 
-The `edgecopy cn` command generates three main files that contain aggregate copy number (agCN) information for every input sample in different format.
+The `edgecopy agcn` command generates three main files that contain aggregate copy number (agCN) information for every input sample in different format.
 
 ### Aggregate copy number profiles
 
