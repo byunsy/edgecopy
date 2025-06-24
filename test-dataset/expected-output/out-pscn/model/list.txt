@@ -1,0 +1,4 @@
+SMN1.gz
+NCF1.gz
+NOMO1.gz
+ABCC6.gz

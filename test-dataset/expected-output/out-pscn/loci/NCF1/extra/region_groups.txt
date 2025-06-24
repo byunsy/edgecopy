@@ -1,0 +1,15 @@
+Region group 03-01
+    Sum length 21,038 bp (including breaks)
+    Copy number:  6
+    PSVs:    119
+    Windows: 207 (suitable for HMM: 103)
+    Constant regions: 2
+    ====
+    chr7:74,768,963-74,770,523 (1,561 bp)
+    chr7:73,215,567-73,217,129:+
+    chr7:75,175,530-75,177,091:-
+    ====
+    chr7:74,770,570-74,790,000 (19,431 bp)
+    chr7:73,217,176-73,236,630:+
+    chr7:75,155,954-75,175,409:-
+    ====

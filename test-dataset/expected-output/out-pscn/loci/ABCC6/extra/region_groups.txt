@@ -1,0 +1,38 @@
+Region group 02-01
+    Sum length 16,704 bp (including breaks)
+    Copy number:  4
+    PSVs:    265
+    Windows: 163 (suitable for HMM: 91)
+    Constant regions: 2
+    ====
+    chr16:16,198,410-16,207,101 (8,692 bp)
+    chr16:18,587,623-18,596,289:-
+    ====
+    chr16:16,207,115-16,215,113 (7,999 bp)
+    chr16:18,579,545-18,587,550:-
+    ====
+Region group 03-01
+    Sum length 13,546 bp (including breaks)
+    Copy number:  6
+    PSVs:    198
+    Windows: 130 (suitable for HMM: 78)
+    Constant regions: 2
+    ====
+    chr16:16,215,114-16,218,819 (3,706 bp)
+    chr16:14,816,373-14,820,064:+
+    chr16:18,575,851-18,579,544:-
+    ====
+    chr16:16,219,005-16,228,659 (9,655 bp)
+    chr16:14,820,250-14,829,762:+
+    chr16:18,566,060-18,575,700:-
+    ====
+Region group 02-02
+    Sum length 185 bp
+    Copy number:  4
+    PSVs:    0
+    Windows: 0 (suitable for HMM: 0)
+    Constant regions: 1
+    ====
+    chr16:16,218,820-16,219,004 (185 bp)
+    chr16:14,820,065-14,820,249:+
+    ====

@@ -1,0 +1,1 @@
+parascopy cn -I out-pscn/samples.list -t homology_table/hg38.bed.gz -f hg38.fa -R example.loci.hg38.bed -d out-pscn -o out-pscn --skip-cn -@ 8
