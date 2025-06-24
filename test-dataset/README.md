@@ -1,7 +1,7 @@
 ## Test dataset
 
 We have provided a small 1KGP dataset for test runs. They are located in `test-dataset` directory. It includes the following:
-- [1KGP.EUR.CEU.BGI.cram.ftp.test.list](1KGP.EUR.CEU.BGI.cram.ftp.test.list) : A list of FTP locations for 16 European CRAM files
+- [1KGP.EUR.CEU.BGI.cram.ftp.list](1KGP.EUR.CEU.BGI.cram.ftp.list) : A list of FTP locations for 16 European CRAM files
 - [1KGP.EUR.CEU.BGI.bam.example.list](1KGP.EUR.CEU.BGI.bam.example.list) : A list of example input file-paths for the 16 BAM files
 - [example.loci.hg38.bed](example.loci.hg38.bed) : A list of four duplicated loci and their genomic positions
 - [exons.hg38.noalt.bed](exons.hg38.noalt.bed) : A BED file containing genomic positions for ~185,000 exons
