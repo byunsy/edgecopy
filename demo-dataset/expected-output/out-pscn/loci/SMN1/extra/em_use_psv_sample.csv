@@ -1,0 +1,4 @@
+# Each element stores two booleans:  first shows if the PSV has good observations at the sample,
+# Second shows if the sample has the reference copy number at the PSV.
+# If PSV has less than 50 "good" samples, it is not used.
+region_group	psv	good	NA07037	NA11892	NA11893	NA11894	NA11931	NA11932	NA11933	NA12287	NA12347	NA12348	NA12383	NA12413	NA12546	NA12749	NA12775	NA12776
