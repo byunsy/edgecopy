@@ -148,7 +148,7 @@ This will generate an output directory `EUR-pscn`. Here, `agcn-dir` refers to th
 
 Output files generated from running `edgecopy agcn` module is described [here](docs/agCN_output.md).
 
-Similarly, output files generated from running `edgecopy pscn` module is described [here](docs/agCN_output.md).
+Similarly, output files generated from running `edgecopy pscn` module is described [here](docs/psCN_output.md).
 
 ---
 ### Test dataset
