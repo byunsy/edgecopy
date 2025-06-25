@@ -274,24 +274,6 @@ def parse_args_pscn(in_argv):
     return args_parsed
 
 
-def parse_args_eval(in_argv):
-    """ 
-    Argument parser for eval pipeline
-    """
-    # Parse arguments from command-line
-    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter)
-    
-    # Required arguments
-    parser.add_argument("-m", "--hmm-dir", required=True, 
-                        help="path to HMM output directory")
-    parser.add_argument("-t", "--truth-dir", required=True, 
-                        help="path to ground-truth directory")
-    parser.add_argument("-r", "--refcn-fp", required=True, 
-                        help="path to list of genes with refCN (tab-sep)")
-    
-    args_parsed = parser.parse_args(in_argv)
-    return args_parsed
-
 # ----------------------------------------------------------------------------
 # PIPELINES: depth --> agcn --> pscn --> eval
 # ----------------------------------------------------------------------------
@@ -403,18 +385,6 @@ def run_pscn_pipeline(inner_argv):
     _pscn.run(args)
 
 
-def run_eval_pipeline(inner_argv):
-    """
-    """
-    
-    args = parse_args_eval(inner_argv)
-
-    # Evaluate and compare estimated CNs against ground-truth
-    # GENE.hmm.bed --> GENE.eval
-    _h.make_header("Evaluating point and HMM estimates.")
-    _eval.evaluate_exome_paras(args.hmm_dir, args.truth_dir, args.refcn_fp)
-    
-
 # ----------------------------------------------------------------------------
 # MAIN FUNCTION
 # ----------------------------------------------------------------------------
@@ -454,10 +424,6 @@ def main():
         run_pscn_pipeline(inner_argv)
         return
 
-    elif command == 'eval':
-        run_eval_pipeline(inner_argv)
-        return
-    
     else:
         _h.show_usage(program)
         return
