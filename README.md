@@ -179,7 +179,7 @@ The manuscript for Edgecopy has been submitted and is currently under review. Mo
 
 #### Parascopy
 
-Parascopy enables copy number estimation and variant calling for duplicated genes using whole-genome sequencing. Edgecopy utilizes a couple of functions from Parascopy. 
+[Parascopy](https://github.com/tprodanov/parascopy) enables copy number estimation and variant calling for duplicated genes using whole-genome sequencing. Edgecopy utilizes a couple of functions from Parascopy. 
 
 >Prodanov, T. & Bansal, V. Robust and accurate estimation of paralog-specific copy number for duplicated genes using whole-genome sequencing. *Nature Communications* 13, 3221 (2022). [https://doi.org/10.1038/s41467-022-30930-3](https://doi.org/10.1038/s41467-022-30930-3)
 
