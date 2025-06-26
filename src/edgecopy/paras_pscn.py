@@ -34,6 +34,15 @@ def generate_wes_psvs(args):
     for pr_dir in pooled_reads:
         shutil.rmtree(pr_dir)
 
+    loci_dirs = os.path.join(args.output, os.path.join('loci', '*'))
+    rm_dirs = glob(os.path.join(loci_dirs, 'bed')) + glob(os.path.join(loci_dirs, 'extra'))
+    for rm_dir in rm_dirs:
+        shutil.rmtree(rm_dir)
+
+    rm_files = glob(os.path.join(loci_dirs, 'res.*'))
+    for rm_f in rm_files:
+        os.remove(rm_f)
+
     return os.path.join(args.output, 'psvs.vcf.gz')
 
 
@@ -86,4 +95,11 @@ def run(args):
             continue
     
         estimate_pscn(args.loci_list, args.agcn_dir, args.output, gene, bias_fp=bias_fp)
-    
+
+    # Clean up a number of Parascopy files that we don't need for Edgecopy
+    rm_files1 = glob(os.path.join(args.output, f'res.*'))
+    for f in rm_files1:
+        os.remove(f)
+
+    shutil.rmtree(os.path.join(args.output, 'model'))
+
