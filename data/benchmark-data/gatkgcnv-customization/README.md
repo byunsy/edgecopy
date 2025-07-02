@@ -12,7 +12,7 @@ Instead of using GATK's CollectReadCounts procedure, we needed to use aggregate 
 
 #### GATK-gCNV
 
-The seven shell scripts in this directory follow the general [workflow](https://www.google.com/url?sa=i&url=https%3A%2F%2Fgatk.broadinstitute.org%2Fhc%2Fen-us%2Fcommunity%2Fposts%2F28601296696347-GATK-Germline-CNV-calling&psig=AOvVaw3Pc2IiOA2-Y3S-RfDm6Wx2&ust=1751523674399000&source=images&cd=vfe&opi=89978449&ved=0CBYQjRxqFwoTCKC40aXEnY4DFQAAAAAdAAAAABAE) of GATK-gCNV. 
+The seven shell scripts in this directory follow the general [workflow](https://gatk.broadinstitute.org/hc/user_images/01J7662ZAP45MFN2VQ09YJEQ86.png) of GATK-gCNV. 
 
 When analyzing duplicated genes, the first three steps are ignored since we need to use the generated files mentioned above. Thus, we begin with `gatk_4_FilterIntervals.sh` and end with `gatk_7_PostprocessGermlineCNVCalls.sh`
 
