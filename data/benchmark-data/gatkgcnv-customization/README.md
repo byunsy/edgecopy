@@ -1,6 +1,6 @@
 ### GATK-gCNV customized pipeline
 
-Here, we provide the code to customize input and output files needed for examinging duplicated genes using GATK-gCNV.
+Here, we provide the code to customize input and output files needed for examining duplicated genes using GATK-gCNV.
 
 #### Contig ploidy priors
 `make_gatk_prior` takes in a directory of WGS-based prior CN distributions (same files as the ones used for Edgecopy) for individual genes/loci. The code reformats the CN distribution information and generates `contig_ploidy_priors.tsv`.
