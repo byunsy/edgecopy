@@ -1,0 +1,21 @@
+Prop	CNV Event	Gene Type	Comb_Conc	Ref_Conc	Nonref_Conc
+0.01	Deletion -1	2-copy	0.9994	0.9997	0.9794
+0.05	Deletion -1	2-copy	0.9991	0.9993	0.9951
+0.10	Deletion -1	2-copy	0.9989	0.9991	0.9972
+0.15	Deletion -1	2-copy	0.9985	0.9988	0.9974
+0.20	Deletion -1	2-copy	0.9986	0.9988	0.9978
+0.01	Deletion -1	3-copy	0.9970	0.9973	0.9815
+0.05	Deletion -1	3-copy	0.9969	0.9973	0.9909
+0.10	Deletion -1	3-copy	0.9967	0.9974	0.9913
+0.15	Deletion -1	3-copy	0.9963	0.9972	0.9914
+0.20	Deletion -1	3-copy	0.9950	0.9971	0.9863
+0.01	Duplication +1	2-copy	0.9993	0.9996	0.9767
+0.05	Duplication +1	2-copy	0.9990	0.9994	0.9916
+0.10	Duplication +1	2-copy	0.9987	0.9993	0.9934
+0.15	Duplication +1	2-copy	0.9981	0.9986	0.9946
+0.20	Duplication +1	2-copy	0.9975	0.9981	0.9950
+0.01	Duplication +1	3-copy	0.9966	0.9972	0.9392
+0.05	Duplication +1	3-copy	0.9965	0.9979	0.9618
+0.10	Duplication +1	3-copy	0.9952	0.9978	0.9632
+0.15	Duplication +1	3-copy	0.9926	0.9978	0.9555
+0.20	Duplication +1	3-copy	0.9901	0.9967	0.9560
