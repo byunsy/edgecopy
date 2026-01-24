@@ -163,3 +163,4 @@ src/exparascopy/out*
 src/exparascopy/out/all/
 src/exparascopy/out/exome-parascopy-out
 src/exparascopy/data/ref
+data/benchmark-data/gatkgcnv-customization/
