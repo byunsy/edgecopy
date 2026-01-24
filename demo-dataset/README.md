@@ -30,7 +30,7 @@ Running this demo [test_pipeline.sh](test_pipeline.sh) will:
 
 ## Step-by-step Pipeline (Optional)
 
-#### Download hg38 reference genome (3GB; takes ~5 minutes)
+### Download hg38 reference genome (3GB; takes ~5 minutes)
 ```
 wget -c -O hg38.fa ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa
 wget -c -O hg38.fa.fai ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa.fai
