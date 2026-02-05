@@ -2,6 +2,10 @@ import setuptools
 from src.edgecopy import __version__, __author__, __license__
 
 
+with open('requirements.txt') as inp:
+    requirements = list(map(str.strip, inp))
+
+
 setuptools.setup(
     name='edgecopy',
     version=__version__,
@@ -13,6 +17,7 @@ setuptools.setup(
     package_dir={'': 'src'},
     packages=setuptools.find_packages(where='src'),
     python_requires='>=3.6',
+    install_requires=requirements,
     include_package_data=True,
 
     entry_points = dict(console_scripts=['edgecopy=edgecopy.run_all:main']),
