@@ -4,4 +4,3 @@ pandas>=2.2.3
 pyreadr>=0.5.2
 networkx>=3.4.2
 r-optparse>=1.7.5
-bedtools>=2.26.0
