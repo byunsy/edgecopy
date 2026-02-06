@@ -36,6 +36,9 @@ def proc_merge(outdir, gene_specific=False, ret=False):
     rds_files = glob.glob(f"{outdir}/counts_df_*.rds")
     rds_files.sort()
     rds_list = [pyreadr.read_r(f)[None] for f in rds_files]
+    
+    print(f'Merging individual count files into one file: {len(rds_files)} files found')
+    print(rds_files)
 
     filename = "all.counts.tsv"
     if gene_specific:
