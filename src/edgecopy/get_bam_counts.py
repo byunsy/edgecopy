@@ -19,16 +19,6 @@ def proc_count(bam_fp, sample_id, exons, outdir):
     
     print(f'Running ExomeDepth function to count reads from BAM files [{sample_id}]')
     cwd = os.path.dirname(os.path.abspath(__file__))
-    rscript_path = f"{cwd}/run_ExomeDepthCount.r"
-    
-    print(f"Current working directory: {os.getcwd()}")
-    print(f"Python __file__: {__file__}")
-    print(f"Computed cwd: {cwd}")
-    print(f"Looking for R script at: {rscript_path}")
-    print(f"R script exists: {os.path.exists(rscript_path)}")
-    
-    # List files in the directory to see what's actually there
-    print(f"Files in {cwd}: {os.listdir(cwd)}")
     
     try:
         subprocess.check_call(
@@ -101,6 +91,18 @@ def run(inp):
         EXONS_FP  = ut.add_suffix(EXONS_FP, 'named')
         new_exons.to_csv(EXONS_FP, sep='\t', index=None)
         inp.exon_list = EXONS_FP
+
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    rscript_path = f"{cwd}/run_ExomeDepthCount.r"
+    
+    print(f"Current working directory: {os.getcwd()}")
+    print(f"Python __file__: {__file__}")
+    print(f"Computed cwd: {cwd}")
+    print(f"Looking for R script at: {rscript_path}")
+    print(f"R script exists: {os.path.exists(rscript_path)}")
+    
+    # List files in the directory to see what's actually there
+    print(f"Files in {cwd}: {os.listdir(cwd)}")
 
     # Run multiple processes (per bam files)
     with Pool(processes=MAX_PROCESSES) as pool:
