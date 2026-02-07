@@ -21,11 +21,12 @@ def proc_count(bam_fp, sample_id, exons, outdir):
     print(f'Running ExomeDepth function to count reads from BAM files [{sample_id}]')
     # cwd = os.path.dirname(os.path.abspath(__file__))
     
-    try:
-        rscript_path = resources.files('edgecopy').joinpath('run_ExomeDepthCount.r')
-    except AttributeError:
-        with resources.path('edgecopy', 'run_ExomeDepthCount.r') as rscript_path:
-            pass
+    # try:
+    #     rscript_path = resources.files('edgecopy').joinpath('run_ExomeDepthCount.r')
+    # except AttributeError:
+    #     with resources.path('edgecopy', 'run_ExomeDepthCount.r') as rscript_path:
+    #         pass
+    rscript_path = "/opt/edgecopy/src/edgecopy/run_ExomeDepthCount.r"
 
     try:
         subprocess.check_call(
