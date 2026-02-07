@@ -9,6 +9,7 @@ import pandas as pd
 
 from multiprocessing import Pool
 from . import utilities as ut
+import importlib.resources as resources
 
 # -----------------------------------------------------------------------------
 # Procedures
@@ -18,13 +19,19 @@ def proc_count(bam_fp, sample_id, exons, outdir):
     """ Run the R script: run_ExomDepthCount.r """
     
     print(f'Running ExomeDepth function to count reads from BAM files [{sample_id}]')
-    cwd = os.path.dirname(os.path.abspath(__file__))
+    # cwd = os.path.dirname(os.path.abspath(__file__))
     
+    try:
+        rscript_path = resources.files('edgecopy').joinpath('run_ExomeDepthCount.r')
+    except AttributeError:
+        with resources.path('edgecopy', 'run_ExomeDepthCount.r') as rscript_path:
+            pass
+
     try:
         subprocess.check_call(
             [
                 "Rscript",
-                f"{cwd}/run_ExomeDepthCount.r",
+                str(rscript_path), #f"{cwd}/run_ExomeDepthCount.r",
                 "-s", bam_fp,
                 "-o", outdir,
                 "-p", sample_id,
