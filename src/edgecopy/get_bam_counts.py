@@ -21,10 +21,15 @@ def proc_count(bam_fp, sample_id, exons, outdir):
     cwd = os.path.dirname(os.path.abspath(__file__))
     try:
         subprocess.check_call(
-            [f'Rscript {cwd}/run_ExomeDepthCount.r -s {bam_fp} -o {outdir} -p {sample_id} -x {exons}'], 
-            #stdout=subprocess.DEVNULL,
-            #stderr=subprocess.DEVNULL,
-            #shell=True
+            [
+                "Rscript",
+                f"{cwd}/run_ExomeDepthCount.r",
+                "-s", bam_fp,
+                "-o", outdir,
+                "-p", sample_id,
+                "-x", exons
+            ],
+            stderr=subprocess.STDOUT
         )
     except subprocess.CalledProcessError:
         return sample_id
