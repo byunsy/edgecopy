@@ -13,19 +13,23 @@ def make_allexons(inp):
     
     # (2) Prepare exon_file
     #df1 = pd.read_csv(inp.exon_list, sep='\t')
-    df1 = _util.read_bed(inp.exon_list)
+    # df1 = _util.read_bed(inp.exon_list)
     
-    exon_fp = f'{inp.exon_list}.noheader' # df with no header needed for parascopy-examine
-    df1.to_csv(exon_fp, sep='\t', index=None, header=None)
+    # exon_fp = f'{inp.exon_list}.noheader' # df with no header needed for parascopy-examine
+    # df1.to_csv(exon_fp, sep='\t', index=None, header=None)
 
-    print('Running Parascopy-examine...')
-    subprocess.call([f'parascopy examine -t {inp.hom_table} -o {cn_fp} -R {exon_fp}'], shell=True)
-    print('Completed Parascopy-examine.')
+    # print('Running Parascopy-examine...')
+    # subprocess.call([f'parascopy examine -t {inp.hom_table} -o {cn_fp} -R {exon_fp}'], shell=True)
+    # print('Completed Parascopy-examine.')
 
     print('\nNow organizing reference CNs for all exons.')
-    df2 = pd.read_csv(cn_fp, sep='\t', skiprows=2)
-    df2 = df2[['#chrom', 'start', 'end', 'ref_CN']]
-    df2.to_csv(cn_fp, sep='\t', index=None)
+
+    hom_table_dir = os.path.dirname(inp.hom_table)
+    homolog_bed = os.path.join(hom_table_dir, 'homolog.bed')
+
+    df = pd.read_csv(homolog_bed, sep='\t', skiprows=2)
+    df = df[['#chrom', 'start', 'end', 'ref_CN']]
+    df.to_csv(cn_fp, sep='\t', index=None)
     
     # Use bedtools to join two dataframes:
     # (a) exons BED file and (b) output of Parascopy-examine
@@ -62,27 +66,27 @@ def make_allexons(inp):
     
     # Only obtain info for non-duplicated exons
     # - this will be used for building reference set
-    df_nondup = grouped.copy()
-    df_nondup = df_nondup.loc[df_nondup.cn == '2']
+    # df_nondup = grouped.copy()
+    # df_nondup = df_nondup.loc[df_nondup.cn == '2']
     
-    cnts  = pd.read_csv(inp.all_cnts_fp, sep='\t')
-    #exons = pd.read_csv(inp.exon_list, sep='\t')
-    exons = _util.read_bed(inp.exon_list)
+    # cnts  = pd.read_csv(inp.all_cnts_fp, sep='\t')
+    # #exons = pd.read_csv(inp.exon_list, sep='\t')
+    # exons = _util.read_bed(inp.exon_list)
 
-    allcnts = pd.concat([exons, cnts], axis=1)
-    allcnts = allcnts.loc[allcnts['name'].isin(df_nondup['name'])]
-    allcnts.rename(columns={'#chrom':'chrom'}, inplace=True)
+    # allcnts = pd.concat([exons, cnts], axis=1)
+    # allcnts = allcnts.loc[allcnts['name'].isin(df_nondup['name'])]
+    # allcnts.rename(columns={'#chrom':'chrom'}, inplace=True)
     
-    allcnts_meta = allcnts.iloc[:,:4]
-    allcnts_cnts = allcnts.iloc[:,4:]
-    allcnts_meta[['start','end']] = allcnts_meta[['start','end']].astype('Int64')
-    cols = allcnts_cnts.columns
-    allcnts_cnts[cols] = allcnts_cnts[cols].astype('Int64')
+    # allcnts_meta = allcnts.iloc[:,:4]
+    # allcnts_cnts = allcnts.iloc[:,4:]
+    # allcnts_meta[['start','end']] = allcnts_meta[['start','end']].astype('Int64')
+    # cols = allcnts_cnts.columns
+    # allcnts_cnts[cols] = allcnts_cnts[cols].astype('Int64')
     
-    outfp2 = os.path.join(inp.all_cnts_dir, 'all.counts.nondup.meta.tsv')
-    outfp3 = os.path.join(inp.all_cnts_dir, 'all.counts.nondup.tsv')
-    allcnts_meta.to_csv(outfp2, sep='\t', index=False)
-    allcnts_cnts.to_csv(outfp3, sep='\t', index=False)
+    # outfp2 = os.path.join(inp.all_cnts_dir, 'all.counts.nondup.meta.tsv')
+    # outfp3 = os.path.join(inp.all_cnts_dir, 'all.counts.nondup.tsv')
+    # allcnts_meta.to_csv(outfp2, sep='\t', index=False)
+    # allcnts_cnts.to_csv(outfp3, sep='\t', index=False)
 
     print('Done.')
     return inp.allexons_fp
