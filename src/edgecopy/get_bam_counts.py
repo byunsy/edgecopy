@@ -6,82 +6,102 @@ import asyncio
 import argparse
 import subprocess
 import pandas as pd
+import pysam
 
 from multiprocessing import Pool
 from . import utilities as ut
-import importlib.resources as resources
+from . import countreads_exonic as cre
+from parascopy import examine_dupl
 
 # -----------------------------------------------------------------------------
 # Procedures
 # -----------------------------------------------------------------------------
 
-def proc_count(bam_fp, sample_id, exons, outdir):
-    """ Run the R script: run_ExomDepthCount.r """
+# def proc_count(bam_fp, sample_id, exons, outdir):
+#     """ Run the R script: run_ExomDepthCount.r """
     
-    print(f'Running ExomeDepth function to count reads from BAM files [{sample_id}]')
-    # cwd = os.path.dirname(os.path.abspath(__file__))
-    rscript_path = f"{cwd}/run_ExomeDepthCount.r"
-    
-    print(f"Current working directory: {os.getcwd()}")
-    print(f"Python __file__: {__file__}")
-    print(f"Computed cwd: {cwd}")
-    print(f"Looking for R script at: {rscript_path}")
-    print(f"R script exists: {os.path.exists(rscript_path)}")
+#     print(f'Running ExomeDepth function to count reads from BAM files [{sample_id}]')
+#     cwd = os.path.dirname(os.path.abspath(__file__))
+#     rscript_path = os.path.join(cwd, "run_ExomeDepthCount.r")
 
-    # try:
-    #     rscript_path = resources.files('edgecopy').joinpath('run_ExomeDepthCount.r')
-    # except AttributeError:
-    #     with resources.path('edgecopy', 'run_ExomeDepthCount.r') as rscript_path:
-    #         pass
-    rscript_path = "/opt/edgecopy/src/edgecopy/run_ExomeDepthCount.r"
-
-    try:
-        subprocess.check_call(
-            [
-                "Rscript",
-                str(rscript_path), #f"{cwd}/run_ExomeDepthCount.r",
-                "-s", bam_fp,
-                "-o", outdir,
-                "-p", sample_id,
-                "-x", exons
-            ],
-            stderr=subprocess.STDOUT
-        )
-    except subprocess.CalledProcessError:
-        return sample_id
+#     try:
+#         subprocess.check_call(
+#             [
+#                 "Rscript",
+#                 str(rscript_path), #f"{cwd}/run_ExomeDepthCount.r",
+#                 "-s", bam_fp,
+#                 "-o", outdir,
+#                 "-p", sample_id,
+#                 "-x", exons
+#             ],
+#             stderr=subprocess.STDOUT
+#         )
+#     except subprocess.CalledProcessError:
+#         return sample_id
     
 
-def proc_merge(outdir, gene_specific=False, ret=False):
+# def proc_merge(outdir, gene_specific=False, ret=False):
 
-    # Merge all individual RDS files
-    rds_files = glob.glob(f"{outdir}/counts_df_*.rds")
-    rds_files.sort()
-    rds_list = [pyreadr.read_r(f)[None] for f in rds_files]
+#     # Merge all individual RDS files
+#     rds_files = glob.glob(f"{outdir}/counts_df_*.rds")
+#     rds_files.sort()
+#     rds_list = [pyreadr.read_r(f)[None] for f in rds_files]
     
-    print(f'Merging individual count files into one file: {len(rds_files)} files found')
-    print(rds_files)
+#     print(f'Merging individual count files into one file: {len(rds_files)} files found')
+#     print(rds_files)
 
-    filename = "all.counts.tsv"
-    if gene_specific:
-        filename = "gene.counts.tsv"
+#     filename = "all.counts.tsv"
+#     if gene_specific:
+#         filename = "gene.counts.tsv"
    
-    outfile = os.path.join(outdir, filename)
-    outfile = f"{outdir}/{filename}"
-    counts = pd.concat(rds_list, axis=1)
-    counts.astype(int).to_csv(outfile, sep="\t", index=None)
+#     outfile = os.path.join(outdir, filename)
+#     outfile = f"{outdir}/{filename}"
+#     counts = pd.concat(rds_list, axis=1)
+#     counts.astype(int).to_csv(outfile, sep="\t", index=None)
    
-    # Clean up individual RDS files after merging
-    for rds_f in rds_files:
-        if os.path.isfile(rds_f):
-            os.remove(rds_f)
+#     # Clean up individual RDS files after merging
+#     for rds_f in rds_files:
+#         if os.path.isfile(rds_f):
+#             os.remove(rds_f)
 
-    # Return filepath to merged counts file if True
-    if ret:
-        return outfile 
+#     # Return filepath to merged counts file if True
+#     if ret:
+#         return outfile 
         
 
 def run(inp):
     
+    # read bam list (lines like /path/to.bam::SAMPLE)
+    with open(inp.input_list, 'r') as fh:
+        lines = [l.strip() for l in fh if l.strip()]
+    file_list = [l.split("::")[0] for l in lines]
+
+    os.makedirs(inp.all_cnts_dir, exist_ok=True)
+
+    # build homolog bedfile for exonic read counting
+    hom_table_dir = os.path.dirname(inp.hom_table)
+    output_homolog_bed = os.path.join(hom_table_dir, 'homolog.bed')
+
+    # bgzip and tabix-index the exon BED file
+    exon_list_gz = f"{inp.exon_list}.gz"
+    pysam.tabix_compress(inp.exon_list, exon_list_gz, force=True)
+    pysam.tabix_index(exon_list_gz, preset="bed", force=True)
+
+    examine_dupl.main('parascopy examine', 
+                     f'-t {inp.hom_table} -R {exon_list_gz} -o {output_homolog_bed}')
+
+    # build intervals and exon_list
+    trees, exon_list, gene_table = read_bedfile_pysam(bedfile=inp.exon_list, region=".", hombed=output_homolog_bed)
+
+    # process BAMs
+    bamstats = cre.process_files_in_parallel(file_list, int(inp.threads), trees, exon_list,
+                                             region='.', minMQ=20, reference_file=inp.reference)
+
+    # write count matrices (creates outdir/all/all.counts.tsv and meta)
+    cre.print_count_matrix(file_list, exon_list, bamstats, inp.all_cnts_dir, reference_file=inp.reference)
+
+
+    """
     # Get a list of input BAM filepaths and corresponding sample_ids
     with open(inp.input_list, "r") as listfile:
         f_list = listfile.read().splitlines()
@@ -114,4 +134,4 @@ def run(inp):
 
     # Merge the output files into one file
     proc_merge(RESULTS_DIR)
-    
+    """

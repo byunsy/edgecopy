@@ -8,53 +8,62 @@ import subprocess
 import pandas as pd
 
 from multiprocessing import Pool
+from . import exomedepth_refsets as er
 
 # -----------------------------------------------------------------------------
 # Procedures
 # -----------------------------------------------------------------------------
 
-def proc_compute(sample_idx, num_samples, datadir):
-    """
-    Run ExomeDepthCompute.r scripts in parallel
-    """
-    print(f'Running ExomeDepth function to build reference sets [{sample_idx}/{num_samples}]')
-    cwd = os.path.dirname(os.path.abspath(__file__))
-    try:
-        subprocess.check_call(
-            [f'Rscript {cwd}/run_ExomeDepthCompute_parallel.r -i {sample_idx} -d {datadir}'], 
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            shell=True
-        )
-    except subprocess.CalledProcessError:
-        return sample_idx
+# def proc_compute(sample_idx, num_samples, datadir):
+#     """
+#     Run ExomeDepthCompute.r scripts in parallel
+#     """
+#     print(f'Running ExomeDepth function to build reference sets [{sample_idx}/{num_samples}]')
+#     cwd = os.path.dirname(os.path.abspath(__file__))
+#     try:
+#         subprocess.check_call(
+#             [f'Rscript {cwd}/run_ExomeDepthCompute_parallel.r -i {sample_idx} -d {datadir}'], 
+#             stdout=subprocess.DEVNULL,
+#             stderr=subprocess.DEVNULL,
+#             shell=True
+#         )
+#     except subprocess.CalledProcessError:
+#         return sample_idx
     
 
-def proc_merge(datadir, ret=False):
-    """
-    If executed in parallel, merge individual files into one combined file.
-    """
+# def proc_merge(datadir, ret=False):
+#     """
+#     If executed in parallel, merge individual files into one combined file.
+#     """
     
-    outfile = os.path.join(datadir, "all.stats.tsv")
-    all_tsvs = glob.glob(os.path.join(datadir, 'stat_params_*.tsv'))
+#     outfile = os.path.join(datadir, "all.stats.tsv")
+#     all_tsvs = glob.glob(os.path.join(datadir, 'stat_params_*.tsv'))
 
-    # Merge all tsv files together into one
-    df = pd.concat([pd.read_csv(f, sep='\t') for f in all_tsvs], ignore_index=True)
-    df.sort_values(by='sample', inplace=True)
-    df.to_csv(outfile, sep='\t', index=False)
+#     # Merge all tsv files together into one
+#     df = pd.concat([pd.read_csv(f, sep='\t') for f in all_tsvs], ignore_index=True)
+#     df.sort_values(by='sample', inplace=True)
+#     df.to_csv(outfile, sep='\t', index=False)
 
-    # Clean up individual RDS files after merging
-    for tsv_f in all_tsvs:
-        if os.path.isfile(tsv_f):
-            os.remove(tsv_f)
+#     # Clean up individual RDS files after merging
+#     for tsv_f in all_tsvs:
+#         if os.path.isfile(tsv_f):
+#             os.remove(tsv_f)
 
-    # Return filepath to merged counts file if True
-    if ret:
-        return outfile 
+#     # Return filepath to merged counts file if True
+#     if ret:
+#         return outfile 
         
 
 def run(inp):
     
+    count_matrix_file = os.path.join(inp.all_cnts_dir, 'all.counts.nondup.tsv')
+    interval_file = os.path.join(inp.all_cnts_dir, 'all.counts.nondup.meta.tsv')
+    out_fp = inp.all_stat_fp
+    
+    er.referenceset_fit(count_matrix_file, interval_file, out_fp,
+                        logfile=sys.stdout, exons_for_beta=10000, max_ref=30, threads=int(inp.threads))
+
+    """
     # Get a list of input BAM filepaths
     with open(inp.input_list, "r") as listfile:
         f_list = listfile.read().splitlines()
@@ -74,4 +83,5 @@ def run(inp):
 
     # Merge the output files into one file
     proc_merge(ALL_CNT_DIR)
+    """
     
