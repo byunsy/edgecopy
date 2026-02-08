@@ -299,13 +299,13 @@ def run_depth_pipeline(inner_argv):
 
     # (2) Prepare allexons parascopy examine file
     #     - examines reference CNs of all exons based on homology table
-    # _h.make_header("(2) Examine reference CNs of all exons.")
+    _h.make_header("(2) Examine reference CNs of all exons.")
     
-    # if not os.path.isfile(inputwrapper.allexons_fp):
-    #     _examine.check_cnts_and_exons(inputwrapper)
-    #     _examine.make_allexons(inputwrapper)
-    # else:
-    #     print(f"Found an existing parascopy-examine file: {inputwrapper.allexons_fp}.")
+    if not os.path.isfile(inputwrapper.allexons_fp):
+        _examine.check_cnts_and_exons(inputwrapper)
+        _examine.make_allexons(inputwrapper)
+    else:
+        print(f"Found an existing parascopy-examine file: {inputwrapper.allexons_fp}.")
     
     # (3) Build reference sets using ExomeDepth
     _h.make_header("(3) Build reference sets.")
