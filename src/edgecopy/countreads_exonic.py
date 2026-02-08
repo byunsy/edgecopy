@@ -163,8 +163,8 @@ def add_homologous_regions(bedfile_homology, exon_list, trees, addchr=False):
                 trees[ch].addi(s, e, -(index + 1))
                 exon_list[index][5] += 1
 
-    print('number of overlaps', n_overlaps, filtered, sum([min(exon[5], 1) for exon in exon_list]), 
-          len(exon_list), sum([exon[6] for exon in exon_list]), file=sys.stderr)
+    #print('number of overlaps', n_overlaps, filtered, sum([min(exon[5], 1) for exon in exon_list]), 
+    #      len(exon_list), sum([exon[6] for exon in exon_list]), file=sys.stderr)
 
 ## bed file needs to have row name
 def read_bedfile_pysam(bedfile, region='.', hombed=None):
@@ -201,7 +201,7 @@ def read_bedfile_pysam(bedfile, region='.', hombed=None):
             index += 1
 
     if hombed is not None:
-        print('adding homologous regions from', hombed, file=sys.stderr)
+        print('Adding homologous regions from', hombed, file=sys.stderr)
         add_homologous_regions(hombed, exon_list, trees)
 
     return trees, exon_list, gene_table
@@ -236,7 +236,7 @@ def count_reads_bam(bam, intervals, exon_list, region='.', maxIS=1000, minMQ=20,
     bamstat = BamStats(bam)
     ontarget_reads, offtarget_reads = 0, 0
     if debug:
-        print('processing file', bam, file=sys.stderr)
+        print('Processing file:', bam, file=sys.stderr)
 
     # Open file (CRAM requires a reference FASTA)
     if bam.endswith('cram'):
@@ -384,7 +384,7 @@ def process_files_in_parallel(file_list, num_workers, intervals, exon_list, regi
     return bamstats
 
 def print_samplestats(bamstats, outdir, samples):
-    """Write per-sample mapping statistics to ``outdir/all/mapping.stats.tsv``.
+    """Write per-sample mapping statistics to ``outdir/mapping.stats.tsv``.
 
     The function assumes ``bamstats`` is a list of ``BamStats`` and writes a
     simple tab-delimited summary including PE reads, unmapped counts,
@@ -392,7 +392,8 @@ def print_samplestats(bamstats, outdir, samples):
     contig mapping counts. The function keeps the original output layout.
     """
 
-    outfile1 = open(outdir + '/all/mapping.stats.tsv', 'w')
+    outfile1 = open(os.path.join(outdir, 'mapping.stats.tsv'), 'w')
+
     print('info', '\t'.join([os.path.basename(bamstats[j].name) for j in range(samples)]), sep='\t', file=outfile1)
     print('PEreads', '\t'.join([str(bamstats[j].pe_reads) for j in range(samples)]), sep='\t', file=outfile1)
     # SEreads intentionally omitted in original output
@@ -420,7 +421,7 @@ def print_samplestats(bamstats, outdir, samples):
     outfile1.close()
 
 def print_edgecopy(file_list, exon_list, bamstats, outdir, genes, dupgene_table):
-    """Write count matrices and metadata to ``outdir/all``.
+    """Write count matrices and metadata to ``outdir``.
 
     - ``all.counts.tsv``: matrix of counts for all exons (rows) x samples (columns)
     - ``all.counts.meta.tsv``: exon metadata corresponding to rows in counts
@@ -431,21 +432,17 @@ def print_edgecopy(file_list, exon_list, bamstats, outdir, genes, dupgene_table)
     """
 
     samples = len(bamstats)
-    try:
-        os.makedirs(outdir + '/all')
-    except FileExistsError:
-        print('directory exists')
 
-    outfile1=open(outdir + '/all/all.counts.tsv','w')
+    outfile1 = open(os.path.join(outdir, 'all.counts.tsv'), 'w')
     print('\t'.join([os.path.basename(f) for f in file_list]), sep='\t', file=outfile1)
     
-    outfile2=open(outdir + '/all/all.counts.meta.tsv','w')
+    outfile2 = open(os.path.join(outdir, 'all.counts.meta.tsv'), 'w')
     print('#chrom', 'start', 'end', 'name',sep='\t', file=outfile2)
     
-    outfile3=open(outdir + '/all/all.counts.nondup.tsv','w')
+    outfile3 = open(os.path.join(outdir, 'all.counts.nondup.tsv'), 'w')
     print('\t'.join([os.path.basename(f) for f in file_list]), sep='\t', file=outfile3)
     
-    outfile4=open(outdir + '/all/all.counts.nondup.meta.tsv','w')
+    outfile4 = open(os.path.join(outdir, 'all.counts.nondup.meta.tsv'), 'w')
     print('#chrom', 'start', 'end', 'name', sep='\t', file=outfile4)
     
     for i in range(len(exon_list)):
@@ -481,7 +478,6 @@ def print_edgecopy(file_list, exon_list, bamstats, outdir, genes, dupgene_table)
     outfile2.close()
     outfile3.close()
     outfile4.close()
-    #outfile5.close()
 
     # write additional per-sample mapping stats
     print_samplestats(bamstats, outdir, samples)
