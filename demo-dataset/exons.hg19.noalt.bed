@@ -1,4 +1,4 @@
-#chrom	start	end	name
+#chr	start	end	name
 1	35138	35174	FAM138A_3
 1	35277	35481	FAM138A_2
 1	35721	35736	FAM138A_1
