@@ -16,10 +16,7 @@ setuptools.setup(
 
     package_dir={'': 'src'},
     packages=setuptools.find_packages(where='src'),
-    package_data={
-        'edgecopy': ['*.r'],  # Include all .r files in the edgecopy package
-    },
-    python_requires='>=3.6',
+    python_requires='>=3.8',
     install_requires=requirements,
     include_package_data=True,
 
