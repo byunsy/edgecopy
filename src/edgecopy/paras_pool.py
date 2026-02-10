@@ -12,6 +12,7 @@ from parascopy.inner.genome import Genome, Interval
 
 from . import get_bam_counts as _bamcounts
 from . import utilities as ut
+from . import countreads_exonic as cre
 
 # -----------------------------------------------------------------------------
 # Procedures
