@@ -481,7 +481,34 @@ def print_edgecopy(file_list, exon_list, bamstats, outdir, genes, dupgene_table)
 
     # write additional per-sample mapping stats
     print_samplestats(bamstats, outdir, samples)
-   
+
+def print_gene_edgecopy(file_list, exon_list, bamstats, outdir, outfile, genes):
+
+    samples = len(bamstats)
+
+    outfile1 = open(os.path.join(outdir, 'all.counts.tsv'), 'w')
+    print('\t'.join([os.path.basename(f) for f in file_list]), sep='\t', file=outfile1)
+    
+    for i in range(len(exon_list)):
+        interval = exon_list[i]
+        gene = exon_list[i][3].split('_')[0]
+
+        # determine whether this gene is considered duplicated
+        if genes[gene][0] > 0:
+            duplicated_gene = True
+        else:
+            duplicated_gene = False
+
+        if exon_list[i][6] == 0:  # TANGLED
+            duplicated_gene = True
+
+        if duplicated_gene:
+            counts_string = '\t'.join([str(bamstats[j].exon_counts[i]) for j in range(samples)])
+            print(counts_string, file=outfile1)
+
+    outfile1.close()
+
+
 def calculate_GC_exon(reference_file,exon_list):
     def gc_content(seq):
         dnaseq = seq.upper()
@@ -501,6 +528,25 @@ def calculate_GC_exon(reference_file,exon_list):
         GC_perc = gc_content(pyfasta.fetch(exon_list[i][0],start,end))
         exon_list[i].append(str(round(GC_perc))+'_'+str(elength))
     pyfasta.close()
+
+def print_gene_count_matrix(file_list, exon_list, bamstats, outdir, outfile):
+
+    samples = len(bamstats)
+
+    # build gene -> [dup_count, exon_index_list] mapping
+    genes = {}
+    for i in range(len(exon_list)):
+        gene = exon_list[i][3].split('_')[0]
+        try:
+            genes[gene][1].append(i)
+        except KeyError:
+            genes[gene] = [0, [i]]
+        if exon_list[i][5] > 0:
+            genes[gene][0] += 1
+
+    print_gene_edgecopy(file_list, exon_list, bamstats, outdir, outfile, genes)
+
+    return 1
 
 ## print non-diploid gene counts to separate file?
 def print_count_matrix(file_list, exon_list, bamstats, outdir, 
