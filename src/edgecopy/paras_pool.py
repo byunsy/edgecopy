@@ -257,7 +257,9 @@ def run(inputwrapper):
         pysam.tabix_compress(exons_fp, gene_exons_gz, force=True)
         pysam.tabix_index(gene_exons_gz, preset="bed", force=True)
 
-        g_trees, g_exon_list, _ = cre.read_bedfile_pysam(bedfile=gene_exons_gz, region=".", hombed=inp.homolog_bed)
+        homolog_bed = os.path.join(os.path.dirname(inp.hom_table), 'homolog.bed')
+
+        g_trees, g_exon_list, _ = cre.read_bedfile_pysam(bedfile=gene_exons_gz, region=".", hombed=homolog_bed)
 
         # process pooled BAMs
         g_bamstats = cre.process_files_in_parallel(pooled_f_list, int(inp.threads), g_trees, g_exon_list,

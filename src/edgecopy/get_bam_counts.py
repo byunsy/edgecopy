@@ -29,7 +29,6 @@ def run(inp):
     # build homolog bedfile for exonic read counting
     hom_table_dir = os.path.dirname(inp.hom_table)
     output_homolog_bed = os.path.join(hom_table_dir, 'homolog.bed')
-    inp.homolog_bed = output_homolog_bed
 
     # bgzip and tabix-index the exon BED file
     exon_list_gz = f"{inp.exon_list}.gz"
