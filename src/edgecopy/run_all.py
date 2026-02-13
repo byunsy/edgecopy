@@ -3,6 +3,7 @@ import os
 import sys
 import time
 import json
+import pysam
 import pickle
 import numpy as np
 import pandas as pd
@@ -74,15 +75,40 @@ class InputInfo:
         self.unique_cn = []
 
         # Get sample names
-        with open(self.input_list, 'r') as inp:
-            if '::' not in inp.readline():
-                e = ("Sample names not found in input list. " + 
-                     "Please specify sample names separated by '::'. " +
-                     "For example, /path/to/file.bam::NA00001")
-                raise IndexError(e)
+        # with open(self.input_list, 'r') as inp:
+        #     if '::' not in inp.readline():
+        #         e = ("Sample names not found in input list. " + 
+        #              "Please specify sample names separated by '::'. " +
+        #              "For example, /path/to/file.bam::NA00001")
+        #         raise IndexError(e)
 
-            samples = [s.split('::')[1] for s in inp.read().splitlines()]
+        #     samples = [s.split('::')[1] for s in inp.read().splitlines()]
+
+        with open(self.input_list, 'r') as inp:
+            lines = inp.read().splitlines()
+
+        samples = []
+        for line in lines:
+            # If sample name is provided in the input list, use it
+            if '::' in line and line.split('::')[1].strip():
+                samples.append(line.split('::')[1].strip())
+            # If sample name is not provided, try to extract it from BAM header
+            else:
+                bam_path = line.split('::')[0].strip()
+                try:
+                    with pysam.AlignmentFile(bam_path, 'rb') as bam:
+                        rg = bam.header.get('RG', [])
+                        if rg and 'SM' in rg[0]:
+                            samples.append(rg[0]['SM'])
+                        else:
+                            raise SystemExit(
+                                f"No sample name found in BAM header for {bam_path}. "
+                                "Please specify sample names with '::' (e.g., /path/to/file.bam::NA00001)")
+                except (FileNotFoundError, ValueError) as e:
+            raise SystemExit(f"Error reading BAM file {bam_path}: {e}")
+        
         self.input_samples = samples
+
 
     def update(self, args):
         """
