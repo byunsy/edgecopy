@@ -66,15 +66,15 @@ def create_counts_dirs(cnts_dir, loci_name):
     return pooled_reads_dir
 
 
-def create_input_lists(input_list_fp, outdir):
+def create_input_lists(input_list_fp, outdir, sample_list):
     """
     Read input filepath list and get input sample names
     """
 
-    with open(input_list_fp, 'r') as inp:
-        input_list = inp.read().splitlines()
+    # with open(input_list_fp, 'r') as inp:
+    #     input_list = inp.read().splitlines()
     
-    sample_list = [line.split("::")[1] for line in input_list]
+    # sample_list = [line.split("::")[1] for line in input_list]
 
     outfp = os.path.join(outdir, 'input.sample.list') 
     with open(outfp, "w") as sample_out:
@@ -201,7 +201,7 @@ def run(inputwrapper):
                                            inp.exon_list, inp.exon_dir)
         inp.gene_exon_fp = exons_fp
         pool_dir = create_counts_dirs(inp.cnts_dir, inp.loci_name)
-        inp_samplenames_fp = create_input_lists(inp.input_list, inp.cnts_dir)
+        inp_samplenames_fp = create_input_lists(inp.input_list, inp.cnts_dir, inp.input_samples)
         
         # Set up constants
         MAX_PROCESSES = int(inp.threads)
