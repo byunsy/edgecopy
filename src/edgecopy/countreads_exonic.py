@@ -63,6 +63,15 @@ class BamStats:
 
         self.duprate = round(self.dup_reads / self.pe_reads, 3) if self.pe_reads else 0.0
         arr = np.array(self.insert_sizes)
+
+        # If no insert-size values were collected, avoid calling numpy
+        # functions that expect non-empty arrays (which raises IndexError).
+        if arr.size == 0:
+            self.mean = 0.0
+            self.variance = 0.0
+            self.quintiles = [0.0, 0.0, 0.0, 0.0, 0.0]
+            return
+
         self.mean = round(np.mean(arr), 1)
         self.variance = round(np.var(arr, ddof=1), 1)
         self.quintiles = np.percentile(arr, [10, 30, 50, 70, 90]).tolist()
