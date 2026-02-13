@@ -26,6 +26,7 @@ def create_exon_col(gene_cnts_fp, loci_name, loci_region, exon_fp):
     exons_oi = exons.loc[exons.apply(
         lambda x: overlap((x['#chrom'], x['start'], x['end']), (_chrom, _start, _end)),
     axis=1)]
+    exons_oi = exons_oi.loc[exons_oi['name'].str.startswith(f'{loci_name}_')]
     exons_oi = exons_oi.reset_index(drop=True)
 
     # Add column with exon information
