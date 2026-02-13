@@ -105,7 +105,7 @@ class InputInfo:
                                 f"No sample name found in BAM header for {bam_path}. "
                                 "Please specify sample names with '::' (e.g., /path/to/file.bam::NA00001)")
                 except (FileNotFoundError, ValueError) as e:
-            raise SystemExit(f"Error reading BAM file {bam_path}: {e}")
+                    raise SystemExit(f"Error reading BAM file {bam_path}: {e}")
         
         self.input_samples = samples
 
