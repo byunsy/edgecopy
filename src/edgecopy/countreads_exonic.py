@@ -217,7 +217,7 @@ def read_bedfile_pysam(bedfile, region='.', hombed=None):
     return trees, exon_list, gene_table
 
 
-def count_reads_bam(bam, intervals, exon_list, region='.', maxIS=1000, minMQ=20, 
+def count_reads_bam(bam_tuple, intervals, exon_list, region='.', maxIS=1000, minMQ=20, 
                     reference_file=None, approach='exome', debug=True):
     """Count reads in a single BAM/CRAM file overlapping provided intervals.
 
@@ -242,11 +242,11 @@ def count_reads_bam(bam, intervals, exon_list, region='.', maxIS=1000, minMQ=20,
     Returns
         BamStats: aggregated statistics for this BAM.
     """
-
+    bam_idx, bam = bam_tuple
     bamstat = BamStats(bam)
     ontarget_reads, offtarget_reads = 0, 0
     if debug:
-        print('Processing file:', bam, file=sys.stderr)
+        print(f'Sample {bam_idx}\tProcessing file:', bam, file=sys.stderr)
 
     # Open file (CRAM requires a reference FASTA)
     if bam.endswith('cram'):
@@ -385,7 +385,7 @@ def process_files_in_parallel(file_list, num_workers, intervals, exon_list, regi
 
     with concurrent.futures.ProcessPoolExecutor(max_workers=num_workers) as executor:
         try:
-            bamstats = list(executor.map(process_with_args, file_list))
+            bamstats = list(executor.map(process_with_args, enumerate(file_list)))
         except ValueError:
             # report file-level errors; caller may inspect returned list
             print('file error', file=sys.stderr)
@@ -492,11 +492,11 @@ def print_edgecopy(file_list, exon_list, bamstats, outdir, genes, dupgene_table)
     # write additional per-sample mapping stats
     print_samplestats(bamstats, outdir, samples)
 
-def print_gene_edgecopy(file_list, exon_list, bamstats, outdir, outfile, genes):
+def print_gene_edgecopy(file_list, exon_list, bamstats, outfile, genes):
 
     samples = len(bamstats)
 
-    outfile1 = open(os.path.join(outdir, 'all.counts.tsv'), 'w')
+    outfile1 = open(outfile, 'w')
     print('\t'.join([os.path.basename(f) for f in file_list]), sep='\t', file=outfile1)
     
     for i in range(len(exon_list)):
@@ -539,7 +539,7 @@ def calculate_GC_exon(reference_file,exon_list):
         exon_list[i].append(str(round(GC_perc))+'_'+str(elength))
     pyfasta.close()
 
-def print_gene_count_matrix(file_list, exon_list, bamstats, outdir, outfile):
+def print_gene_count_matrix(file_list, exon_list, bamstats, outfile):
 
     samples = len(bamstats)
 
@@ -554,7 +554,7 @@ def print_gene_count_matrix(file_list, exon_list, bamstats, outdir, outfile):
         if exon_list[i][5] > 0:
             genes[gene][0] += 1
 
-    print_gene_edgecopy(file_list, exon_list, bamstats, outdir, outfile, genes)
+    print_gene_edgecopy(file_list, exon_list, bamstats, outfile, genes)
 
     return 1
 

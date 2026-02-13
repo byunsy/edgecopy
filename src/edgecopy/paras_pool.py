@@ -242,16 +242,8 @@ def run(inputwrapper):
 
         with open(pool_fp_list_fp, "r") as listfile:
             pooled_f_list = listfile.read().splitlines()
-        pooled_f_list = [(f.split("::")[0], f.split("::")[1]) for f in pooled_f_list]
+        pooled_f_list = [f.split("::")[0] for f in pooled_f_list]
         
-        # Run getBamCounts
-        print(f"getBamCounts() started with {MAX_PROCESSES} processes.\n")
-
-        # with Pool(processes=MAX_PROCESSES) as pool2:
-        #     pool_objs = [pool2.apply_async(_bamcounts.proc_count, args=(bam_fp, s_id, exons_fp, inp.cnts_dir)) for bam_fp,s_id in pooled_f_list]
-        #     ret = [obj.get() for obj in pool_objs]
-        # cnts_fp = _bamcounts.proc_merge(inp.cnts_dir, gene_specific=True, ret=True)
-
         # bgzip and tabix-index the exon BED file
         gene_exons_gz = f"{exons_fp}.gz"
         pysam.tabix_compress(exons_fp, gene_exons_gz, force=True)
@@ -265,9 +257,9 @@ def run(inputwrapper):
         g_bamstats = cre.process_files_in_parallel(pooled_f_list, int(inp.threads), g_trees, g_exon_list,
                                                    region='.', minMQ=20, reference_file=inp.reference)
 
-        # write count matrices (creates outdir/all/all.counts.tsv and meta)
-        print(f"Saving counts matrices to: {inp.all_cnts_dir}")
-        cre.print_gene_count_matrix(pooled_f_list, g_exon_list, g_bamstats, inp.cnts_dir, gene_cnts_f)
+        # write gene-specific count matrices
+        print(f"Saving counts matrices to: {gene_cnts_f}")
+        cre.print_gene_count_matrix(pooled_f_list, g_exon_list, g_bamstats, gene_cnts_f)
 
         # Add exons columns to the gene counts file
         cnts_exons_fp = ut.create_exon_col(gene_cnts_f, inp.loci_name, inp.loci_region_tab, inp.exon_list)
