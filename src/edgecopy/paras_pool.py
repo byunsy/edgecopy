@@ -267,10 +267,10 @@ def run(inputwrapper):
 
         # write count matrices (creates outdir/all/all.counts.tsv and meta)
         print(f"Saving counts matrices to: {inp.all_cnts_dir}")
-        cre.print_gene_count_matrix(pooled_f_list, g_exon_list, g_bamstats, inp.cnts_dir, inp.gene_cnts_fp)
+        cre.print_gene_count_matrix(pooled_f_list, g_exon_list, g_bamstats, inp.cnts_dir, gene_cnts_f)
 
         # Add exons columns to the gene counts file
-        cnts_exons_fp = ut.create_exon_col(inp.gene_cnts_fp, inp.loci_name, inp.loci_region_tab, inp.exon_list)
+        cnts_exons_fp = ut.create_exon_col(gene_cnts_f, inp.loci_name, inp.loci_region_tab, inp.exon_list)
 
         # Filter only duplicated exons of our gene of interest
         cnts_dup_exons_fp = ut.fetch_dup_exons(cnts_exons_fp, inp)
