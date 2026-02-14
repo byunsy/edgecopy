@@ -1,15 +1,18 @@
 import os
 import sys
 import time
+from edgecopy import __version__, __author__
 
 BARLEN = 55
 
 def make_title():
-    title = """
+    title = f"""
 
      ____  ___   __    ____  __    ___   ___   _   
     | |_  | | \ / /`_ | |_  / /`  / / \ | |_) \ \_/
     |_|__ |_|_/ \_\_/ |_|__ \_\_, \_\_/ |_|    |_|  
+    Version: {__version__}
+    Authors: {__author__}
     """
     try:
         _ = os.system("clear")
@@ -41,7 +44,7 @@ def show_usage(prog_name):
     
     make_title()
     usage = '''
-Usage:   exparascopy <command> <arguments>
+Usage:   edgecopy <command> <arguments>
 
 Commands:
 
@@ -54,7 +57,6 @@ Commands:
     pscn        Compute allele-specific copy number estimates.
 
 \033[32m[ General help ]\033[0m
-
     help        Show this help message.
 
 '''
