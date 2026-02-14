@@ -87,26 +87,36 @@ class InputInfo:
         with open(self.input_list, 'r') as inp:
             lines = inp.read().splitlines()
 
-        samples = []
+        bam_fps, samples = [], []        
         for line in lines:
-            # If sample name is provided in the input list, use it
-            if '::' in line and line.split('::')[1].strip():
-                samples.append(line.split('::')[1].strip())
-            # If sample name is not provided, try to extract it from BAM header
+            bam_sample_tup = line.split('::', 1)
+            bam_path = bam_sample_tup[0].strip()
+
+            # If sample name is explicitly provided in the input list
+            if len(bam_sample_tup) == 2 and bam_sample_tup[1].strip():
+                sample = bam_sample_tup[1].strip()
+                bam_fps.append(bam_path)
+                samples.append(sample)
+
+            # If no sample name provided, extract from BAM header
             else:
-                bam_path = line.split('::')[0].strip()
                 try:
                     with pysam.AlignmentFile(bam_path, 'rb') as bam:
                         rg = bam.header.get('RG', [])
-                        if rg and 'SM' in rg[0]:
-                            samples.append(rg[0]['SM'])
+                        if rg and 'SM' in rg[0] and rg[0]['SM'].strip():
+                            bam_fps.append(bam_path)
+                            samples.append(rg[0]['SM'].strip())
                         else:
                             raise SystemExit(
                                 f"No sample name found in BAM header for {bam_path}. "
-                                "Please specify sample names with '::' (e.g., /path/to/file.bam::NA00001)")
+                                "Please specify sample names with '::' "
+                                "(e.g., /path/to/file.bam::NA00001) or "
+                                "ensure BAM header contains RG with SM tag."
+                            )
                 except (FileNotFoundError, ValueError) as e:
                     raise SystemExit(f"Error reading BAM file {bam_path}: {e}")
-        
+
+        self.input_bam_fps = bam_fps
         self.input_samples = samples
 
 
