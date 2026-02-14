@@ -11,8 +11,9 @@ def make_title():
      ____  ___   __    ____  __    ___   ___   _   
     | |_  | | \ / /`_ | |_  / /`  / / \ | |_) \ \_/
     |_|__ |_|_/ \_\_/ |_|__ \_\_, \_\_/ |_|    |_|  
-    Version: {__version__}
-    Authors: {__author__}
+    
+    version {__version__}
+    {__author__}
     """
     try:
         _ = os.system("clear")
