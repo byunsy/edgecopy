@@ -119,14 +119,14 @@ def get_cnts_nondup_gene(inp):
     outf.to_csv(outfp, sep='\t', index=None)
     return outfp
 
-def run_paras_pool(inp_bam, pool_dir, _inp):
+def run_paras_pool(inp_bam_sample_tup, pool_dir, _inp):
     """
     Run Parascopy pool on the specified loci
     """
 
     default_exc = 'length < 500 && seq_sim < 0.97'
     default_mate_dist = 5000
-    inp_bam_fp, s_name = inp_bam.split("::")
+    inp_bam_fp, s_name = inp_bam_sample_tup
     output_fp = os.path.join(pool_dir, f'{s_name}.pooled_reads.bam')
 
     print(f"Running Parascopy Pool for {s_name}.")
@@ -206,13 +206,16 @@ def run(inputwrapper):
         # Set up constants
         MAX_PROCESSES = int(inp.threads)
 
-        # Read list of input filepaths
-        with open(inp.input_list, "r") as inpf1:
-            input_fp = inpf1.read().splitlines()
+        # # Read list of input filepaths
+        # with open(inp.input_list, "r") as inpf1:
+        #     input_fp = inpf1.read().splitlines()
 
-        # Read list of input sample names
-        with open(inp_samplenames_fp, "r") as inpf2:
-            inp_samples = inpf2.read().splitlines()
+        # # Read list of input sample names
+        # with open(inp_samplenames_fp, "r") as inpf2:
+        #     inp_samples = inpf2.read().splitlines()
+
+        # Create list of tuples of (input BAM filepath, sample name)
+        inp.input_bam_sample_tups = list(zip(inp.input_bam_fps, inp.input_samples))
 
         # Check if gene of interest is duplicated or non-duplicated
         if is_nondup(all_df, inp.loci_region_tab):
@@ -229,7 +232,7 @@ def run(inputwrapper):
         
         # Run Parascopy pool (using multiprocessing)
         with Pool(processes=MAX_PROCESSES) as pool1:
-            pool_objs = [pool1.apply_async(run_paras_pool, args=(f, pool_dir, inp)) for f in input_fp]
+            pool_objs = [pool1.apply_async(run_paras_pool, args=(t, pool_dir, inp)) for t in inp.input_bam_sample_tups]
             ret = [obj.get() for obj in pool_objs]
        
         # List of pooled reads BAM files
