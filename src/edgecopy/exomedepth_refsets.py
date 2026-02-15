@@ -251,7 +251,7 @@ def process_sample(n_exons, sample_names, i, corr_list, counts, maxpairs, DEBUG=
 
 
 ## df is counts data table for all exons from ExomeDepth
-def referenceset_fit(count_matrix_file, interval_file, output_file, 
+def referenceset_fit(count_matrix_file, interval_file, sample_names, output_file, 
                      logfile=sys.stdout, exons_for_beta=10000, max_ref=30, threads=8):
     """Main driver: build reference sets for all samples in a count matrix.
 
@@ -297,7 +297,6 @@ def referenceset_fit(count_matrix_file, interval_file, output_file,
     counts = np.array([df1[df1.columns[i]].to_numpy() for i in range(n_samples)]).T
     means = [df1[df1.columns[i]].mean(axis=0) for i in range(n_samples)]
 
-    sample_names = df1.columns
     n_exons = df1.shape[0]
     lists = []
     for i in range(n_samples):
