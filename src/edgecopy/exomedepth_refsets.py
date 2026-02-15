@@ -4,10 +4,7 @@ This module analyzes count matrices (exon x sample) and selects reference
 sample sets for each test sample using a beta-binomial model. The code is
 adapted from ExomeDepth-style logic and focuses on estimating beta-binomial
 parameters and selecting reference samples that maximize an expected Bayes
-Factor criterion.
-
-The edits in this file are documentation-only (module docstring, function
-docstrings, and inline comments). No computational logic has been changed.
+Factor criterion. 
 """
 
 import sys

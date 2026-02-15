@@ -676,10 +676,6 @@ def analyze_component(inp, data1, refCN, c, comp, outname, logfile=sys.stdout):
 
 def run(inp):
 
-    test_df = pd.read_csv(inp.gene_cnts_fp, sep='\t')
-    print(inp.loci_name, inp.gene_cnts_fp, file=sys.stdout)
-    print(test_df, file=sys.stdout)
-
     # Set up exome data class
     data = ExomeData()
     data.get_parameters2(inp.all_stat_fp, inp.priors_fp, inp.loci_name)
