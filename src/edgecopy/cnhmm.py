@@ -146,11 +146,11 @@ class cnHMM:
         """
         MAXJUMP = 2
         STARTCN = int(self.point_cn[s_idx])
-        CNRANGE = range(max(STARTCN-MAXJUMP,0), min(STARTCN+MAXJUMP+1,10))
+        CNRANGE = range(max(STARTCN-MAXJUMP,0), min(STARTCN+MAXJUMP+1,self.num_hidden))
         t_probs = np.full((self.num_obsrvs-1, self.num_hidden, self.num_hidden), np.log(1e-20))
 
         for from_cn in CNRANGE:
-            to_cn_range = range(max(from_cn-MAXJUMP,0), min(from_cn+MAXJUMP+1,10))
+            to_cn_range = range(max(from_cn-MAXJUMP,0), min(from_cn+MAXJUMP+1,self.num_hidden))
             for to_cn in to_cn_range:
                 if from_cn == to_cn:  # Remain in current CN state
                     t_probs[:,from_cn,to_cn] = np.log(1-t)
@@ -174,7 +174,7 @@ class cnHMM:
 
         MAXJUMP = 2
         STARTCN = int(self.point_cn[s_idx])
-        CNRANGE = range(max(STARTCN-MAXJUMP,0), min(STARTCN+MAXJUMP+1,10))
+        CNRANGE = range(max(STARTCN-MAXJUMP,0), min(STARTCN+MAXJUMP+1,self.num_hidden))
         t_probs = self.tran_p[s_idx]
         #t /= 4
 
@@ -201,7 +201,7 @@ class cnHMM:
                         uniq_to_cn[int(trans[1])] = int(counts[j])
 
                 from_cn = int(from_cn)
-                to_cn_range = range(max(from_cn-MAXJUMP,0), min(from_cn+MAXJUMP+1,10))
+                to_cn_range = range(max(from_cn-MAXJUMP,0), min(from_cn+MAXJUMP+1,self.num_hidden))
                 for to_cn in to_cn_range:
 
                     # Number of valid to_cn states not observed in CN profiles
@@ -223,7 +223,7 @@ class cnHMM:
         """
         MAXJUMP = 2
         STARTCN = int(self.point_cn[s_idx])
-        CNRANGE = range(max(STARTCN-MAXJUMP,0), min(STARTCN+MAXJUMP+1,10))
+        CNRANGE = range(max(STARTCN-MAXJUMP,0), min(STARTCN+MAXJUMP+1,self.num_hidden))
         t_probs = self.tran_p[s_idx]
         MIN_HQ_CNT = 1
 
@@ -243,7 +243,7 @@ class cnHMM:
 
             for from_cn in CNRANGE:
 
-                to_cn_range = range(max(from_cn-MAXJUMP,0), min(from_cn+MAXJUMP+1,10))
+                to_cn_range = range(max(from_cn-MAXJUMP,0), min(from_cn+MAXJUMP+1,self.num_hidden))
                 for to_cn in to_cn_range:
 
                     if from_cn == to_cn:
