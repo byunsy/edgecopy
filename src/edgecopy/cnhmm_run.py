@@ -44,12 +44,12 @@ def run_hmm(inp, data_cc_list):
             print(f"- Estimating agCN-HMM paths for {inp.loci_name} component {cc_i} [{data_cc.n} samples].")
             
             # Set up
-            hidden_states = range(0,11)
-            hmm = ch.cnHMM(hidden_states, 
-                           data_cc.ecounts, 
-                           data_cc.n, 
-                           data_cc.reference_sets, 
-                           data_cc.refCN, 
+            hidden_states = range(0, inp.maxcn + 1)
+            hmm = ch.cnHMM(hidden_states,
+                           data_cc.ecounts,
+                           data_cc.n,
+                           data_cc.reference_sets,
+                           data_cc.refCN,
                            data_cc.means,
                            data_cc.alpha,
                            data_cc.beta,
@@ -162,12 +162,12 @@ def run_hmm_old(inp, data_cc_list):
         for cc_i, data_cc in enumerate(data_cc_list):
             print(f"- Estimating agCN-HMM paths for {inp.loci_name} component {cc_i} [{data_cc.n} samples].")
             
-            hidden_states = range(0,11)
-            hmm = ch.cnHMM(hidden_states, 
-                           data_cc.ecounts, 
-                           data_cc.n, 
-                           data_cc.reference_sets, 
-                           data_cc.refCN, 
+            hidden_states = range(0, inp.maxcn + 1)
+            hmm = ch.cnHMM(hidden_states,
+                           data_cc.ecounts,
+                           data_cc.n,
+                           data_cc.reference_sets,
+                           data_cc.refCN,
                            data_cc.means,
                            data_cc.alpha,
                            data_cc.beta,
