@@ -677,7 +677,7 @@ def analyze_component(inp, data1, refCN, c, comp, outname, logfile=sys.stdout):
 def run(inp):
 
     # Set up exome data class
-    data = ExomeData()
+    data = ExomeData(maxCN=inp.maxcn)
     data.get_parameters2(inp.all_stat_fp, inp.priors_fp, inp.loci_name)
     data.gene_counts(inp.gene_cnts_fp)
     refCN = inp.refcn
