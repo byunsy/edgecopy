@@ -129,7 +129,8 @@ class InputInfo:
         self.finaldir = os.path.join(args.output, self.loci_name)
         self.debug_fp = os.path.join(self.finaldir, f'{self.loci_name}.hmm.debug.log')
         self.debug_mode = args.debug
-        
+        self.maxcn = args.maxcn
+
         if not args.priors:
             args.priors = os.path.join(self.data_dir, 'priors')
         self.priordir = args.priors
