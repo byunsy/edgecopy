@@ -113,6 +113,15 @@ class cnHMM:
         prior_fp: path to CN distribution of a particular gene
         """
         prior_d = np.array(pd.read_csv(prior_fp, sep='\t'))[:,1]
+
+        # Adapt prior to match number of hidden states
+        if len(prior_d) < self.num_hidden:
+            pad = np.full(self.num_hidden - len(prior_d), 1e-9)
+            prior_d = np.concatenate([prior_d, pad])
+        elif len(prior_d) > self.num_hidden:
+            prior_d = prior_d[:self.num_hidden]
+        prior_d = prior_d / prior_d.sum()
+
         i_probs = np.full((self.num_samples, self.num_hidden), prior_d)
         #for s_idx in range(self.num_samples):
         #    
