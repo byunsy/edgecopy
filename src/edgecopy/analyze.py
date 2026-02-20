@@ -89,7 +89,7 @@ def closest_vector_full(frac_vec, integer_vec, distance=False, prior={}):
 def vector_prior(data1,cn_vector, scale=False):
     """
     """
-    return -np.sum([math.log(data1.prior.get(round(cn_vector[i]), 1e-9)) for i in range(data1.n)])
+    return -np.sum([math.log(data1.prior.get(round(cn_vector[i]), data1.prior_epsilon)) for i in range(data1.n)])
     #if scale:  return -np.sum([math.log(data1.prior.get(round(cn_vector[i]), 1e-9))*len(data1.samples_include[i]) for i in range(data1.n)])
 
 def subset_shift(frac_vec, integer_vec, data1, frac_ll, integer_ll):
@@ -147,14 +147,14 @@ def greedy_search(init_vec, exome_data, order='optimized', mindelta=0):
         for i in L: # for each sample in order L
             ll_list = []
             current_c = round(beam[i])
-            current_ll = fopt(beam, exome_data, sample_list=exome_data.samples_include[i]) - math.log(exome_data.prior.get(int(current_c), 1e-9))
+            current_ll = fopt(beam, exome_data, sample_list=exome_data.samples_include[i]) - math.log(exome_data.prior.get(int(current_c), exome_data.prior_epsilon))
             
             for c in range(max(MINCN,current_c-2), min(current_c+3, MAXCN+1)):  # for each CN of CN range
                 beam[i] = max(c, 0.05)
                 if c == current_c: 
                     ll = current_ll
                 else: 
-                    ll = fopt(beam, exome_data, sample_list=exome_data.samples_include[i]) - math.log(exome_data.prior.get(c, 1e-9))
+                    ll = fopt(beam, exome_data, sample_list=exome_data.samples_include[i]) - math.log(exome_data.prior.get(c, exome_data.prior_epsilon))
                 ll_list.append((-ll,c))
 
             ll_list.sort(reverse=True)
@@ -202,7 +202,7 @@ def run_greedy_search(exome_data, fractional=None, random_starts=10):
     Runs greedy/beam search for multiple initial CN vectors
     """
     R_cn = range(exome_data.minCN, exome_data.maxCN+1)
-    prob_cn = [exome_data.prior.get(i, 1e-9) for i in R_cn]
+    prob_cn = [exome_data.prior.get(i, exome_data.prior_epsilon) for i in R_cn]
     s = sum(prob_cn)
     prob_cn = [p/s for p in prob_cn]
     
@@ -218,9 +218,9 @@ def run_greedy_search(exome_data, fractional=None, random_starts=10):
         return init_vec
         print(Counter(init_vec),'random init', file=sys.stderr)
 
-    prior_dict = {cn:exome_data.prior.get(cn, 1e-9) for cn in R_cn}
+    prior_dict = {cn:exome_data.prior.get(cn, exome_data.prior_epsilon) for cn in R_cn}
 
-    priors = [(exome_data.prior.get(cn, 1e-9), cn) for cn in R_cn]
+    priors = [(exome_data.prior.get(cn, exome_data.prior_epsilon), cn) for cn in R_cn]
     priors.sort(reverse=True)
     #print('priors',priors,file=sys.stderr)
 
@@ -357,7 +357,7 @@ def best_fractional(self,random_start=False,max_ab=100000):
     
     #x0 = np.random.choice([i for i in range(1,11)], size=self.n,p=[self.prior.get(cn, 1e-9) for cn in range(1,11)])
     x0 = [self.refCN] * self.n
-    priors = [(cn,self.prior.get(cn, 1e-9)) for cn in range(max(1,self.minCN),self.maxCN+1)]
+    priors = [(cn,self.prior.get(cn, self.prior_epsilon)) for cn in range(max(1,self.minCN),self.maxCN+1)]
     
     #result1 = opt.minimize(fopt_prior,x0,bounds=self.cn_bounds,tol=1e-7,args=(self,priors),method='L-BFGS-B')
     result1 = opt.minimize(
@@ -499,7 +499,7 @@ def compute_qual_final(data1, best, NBDlist=None, UPDATE=True):
             
             for j in range(max(data1.minCN,cn-2), min(data1.maxCN+1,cn+3)):
                 best[i] = max(j, 0.05)
-                ll = fopt(best, data1, sample_list=data1.samples_include[i]) - math.log(data1.prior.get(int(cn), 1e-9))
+                ll = fopt(best, data1, sample_list=data1.samples_include[i]) - math.log(data1.prior.get(int(cn), data1.prior_epsilon))
                 ll_list.append(ll)
                 ll_list1.append((round(float(ll),1),j))
                 if j == cn: 
@@ -677,7 +677,7 @@ def analyze_component(inp, data1, refCN, c, comp, outname, logfile=sys.stdout):
 def run(inp):
 
     # Set up exome data class
-    data = ExomeData(maxCN=inp.maxcn)
+    data = ExomeData(maxCN=inp.maxcn, prior_epsilon=inp.prior_epsilon)
     data.get_parameters2(inp.all_stat_fp, inp.priors_fp, inp.loci_name)
     data.gene_counts(inp.gene_cnts_fp)
     refCN = inp.refcn
