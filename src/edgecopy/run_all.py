@@ -130,6 +130,7 @@ class InputInfo:
         self.debug_fp = os.path.join(self.finaldir, f'{self.loci_name}.hmm.debug.log')
         self.debug_mode = args.debug
         self.maxcn = args.maxcn
+        self.prior_epsilon = args.prior_epsilon
 
         if not args.priors:
             args.priors = os.path.join(self.data_dir, 'priors')
@@ -246,9 +247,13 @@ def parse_args_agcn(in_argv):
                         help="Threshold for the highest reference copy number to examine.\n"
                              "Any gene with reference copy number higher will be skipped.\n\n")
     
-    parser.add_argument("--maxcn", type=int, default=10, 
+    parser.add_argument("--maxcn", type=int, default=10,
                         help="Threshold for the maximum copy number state.\n"
                              "Any gene with reference copy number higher will be skipped.\n\n")
+
+    parser.add_argument("--prior-epsilon", type=float, default=1e-6,
+                        help="Default probability for CN states not in the prior file.\n"
+                             "Default set at 1e-6.\n\n")
     
     parser.add_argument("--t-prob", type=float, default=0.0001, 
                         help="Transition probability.\n"
