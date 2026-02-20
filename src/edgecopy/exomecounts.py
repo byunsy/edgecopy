@@ -12,7 +12,7 @@ from .optimize_functions import fopt
 class ExomeData:
     calls = 0
 
-    def __init__(self, n=0, maxCN=10):
+    def __init__(self, n=0, maxCN=10, prior_epsilon=1e-6):
         self.samples_index = {}
         self.samplenames = [] ## list
         self.n = n ## number of samples
@@ -34,6 +34,7 @@ class ExomeData:
         self.trueCN = None
         self.minCN = 0
         self.maxCN = maxCN
+        self.prior_epsilon = prior_epsilon
         #self.CNrange = (0,10)
         self.order = None
         self.bestLL =- 100000
@@ -54,7 +55,7 @@ class ExomeData:
 
     def construct_subset(self, comp): 
         """ create new ExomeData object for a connected component """
-        subdata = ExomeData(maxCN=self.maxCN)
+        subdata = ExomeData(maxCN=self.maxCN, prior_epsilon=self.prior_epsilon)
         subdata.trueCN = []
         subdata.betamatrix = {}
         subdata.correlations = []
