@@ -108,7 +108,7 @@ class cnHMM:
     # ========================================================================
     # COMPUTATION FUNCTIONS
     # ========================================================================        
-    def compute_initial_p(self, prior_fp, cc):
+    def compute_initial_p(self, prior_fp, cc, prior_epsilon=1e-6):
         """
         prior_fp: path to CN distribution of a particular gene
         """
@@ -116,7 +116,7 @@ class cnHMM:
 
         # Adapt prior to match number of hidden states
         if len(prior_d) < self.num_hidden:
-            pad = np.full(self.num_hidden - len(prior_d), 1e-9)
+            pad = np.full(self.num_hidden - len(prior_d), prior_epsilon)
             prior_d = np.concatenate([prior_d, pad])
         elif len(prior_d) > self.num_hidden:
             prior_d = prior_d[:self.num_hidden]

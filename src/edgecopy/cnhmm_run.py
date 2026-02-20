@@ -63,7 +63,7 @@ def run_hmm(inp, data_cc_list):
                 if os.path.exists(inp.debug_fp):
                     os.remove(inp.debug_fp)
             
-            hmm.compute_initial_p(inp.priors_fp, data_cc)
+            hmm.compute_initial_p(inp.priors_fp, data_cc, prior_epsilon=inp.prior_epsilon)
 
             # Round one of HMM
             hmm.compute_transition_p(inp.t_prob)
@@ -182,8 +182,8 @@ def run_hmm_old(inp, data_cc_list):
                 if os.path.exists(inp.debug_fp):
                     os.remove(inp.debug_fp)
             
-            hmm.compute_initial_p(inp.priors_fp, data_cc)
-            
+            hmm.compute_initial_p(inp.priors_fp, data_cc, prior_epsilon=inp.prior_epsilon)
+
             # Round one
             hmm.compute_transition_p(inp.t_prob)
             hmm.compute_exon_CN2(data_cc, inp.max_iter)
