@@ -1,0 +1,13 @@
+Method	Gene Type	Concordance
+Full Pipeline	All genes_comb	0.981352
+Full Pipeline	All genes_nref	0.921189
+Full Pipeline	High Seq Sim genes	0.981802
+Full Pipeline	Common CNV genes	0.977053
+Fractional Ablation	All genes_comb	0.965106
+Fractional Ablation	All genes_nref	0.840584
+Fractional Ablation	High Seq Sim genes	0.973186
+Fractional Ablation	Common CNV genes	0.955466
+JLF Ablation	All genes_comb	0.909894
+JLF Ablation	All genes_nref	0.410464
+JLF Ablation	High Seq Sim genes	0.844009
+JLF Ablation	Common CNV genes	0.741442

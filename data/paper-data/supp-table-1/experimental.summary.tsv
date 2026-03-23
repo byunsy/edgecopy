@@ -1,0 +1,8 @@
+genes	num_samples	pseudo_exomedepth	edgecopy
+SMN1/2 (1-6)	1121	0.757	0.994
+SMN1/2 (7-8)	1121	0.682	0.988
+C4A/C4B	45	0.992	1.0
+FCGR3A/3B	123	0.826	0.869
+DEFB genes	106	0.736	0.994
+RHCE/RHD	36	0.667	1.0
+APOBEC3A/3B	174	0.732	0.977
